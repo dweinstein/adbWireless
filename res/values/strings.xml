@@ -2,9 +2,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
 	<string name="app_name">adbWireless</string>
-	<string name="top_text">Welcome to adbWireless, you can enable or disable
-		the wireless connection ADB interface by pressing the big button.
-	</string>
+	<string name="top_text">Welcome to adbWireless, you can enable or disable the wireless connection ADB interface by pressing the big button.</string>
 
 	<string name="footer_text_1">adbWireless is on, from your computer run:</string>
 	<string name="footer_text_2"></string>
@@ -17,24 +15,19 @@
 	<string name="button_activate_wifi">Activate WiFi</string>
 
 	<string name="no_root_title">Not Root!</string>
-	<string name="no_root">Ops! Sorry, but your kernel does not have all
-		necessary features for running this application, you need rooted
-		phone.</string>
+	<string name="no_root">Ops! Sorry, but your kernel does not have all necessary features for running this application, you need rooted phone.</string>
 
 	<string name="no_wifi_title">No Wireless!</string>
-	<string name="no_wifi">Ops! Sorry, but WiFi is off, you need the
-		active
-		WiFi to use adbWireless.</string>
+	<string name="no_wifi">Ops! Sorry, but WiFi is off, you need the active WiFi to use adbWireless.</string>
 	<string name="auto_wifi">Automatically activate WiFi</string>
 
 	<string name="menu_prefs">Preferences</string>
 	<string name="menu_about">About</string>
 	<string name="menu_exit">Exit</string>
 
-	<string name="about">adbWireless enable ADB wireless connection to
-		connect to the phone as if connected by USB.</string>
+	<string name="about">adbWireless enable ADB wireless connection to connect to the phone as if connected by USB.\n\nThanks to Skywriter to contribute.</string>
 
-	<string name="noti_text">adbWireless is running</string>
+	<string name="noti_text">Connect to </string>
 
 	<string name="settings_title">Preferences</string>
 
@@ -63,6 +56,8 @@
 	<string name="wifi_off">WiFi auto off</string>
 	<string name="server_wifi_off">Turn off WiFi on app exit if it was off at app start
 	</string>
+
+	<string name="widget_start">adbWireless is on!\nConnect to </string>
 
 	<!-- Defaults -->
 	<string name="default_port">8085</string>
