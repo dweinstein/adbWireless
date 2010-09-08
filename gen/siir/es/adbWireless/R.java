@@ -18,17 +18,23 @@ public final class R {
         public static final int icon_android=0x7f020004;
         public static final int icon_back=0x7f020005;
         public static final int mini_wireless=0x7f020006;
+        public static final int widget=0x7f020007;
+        public static final int widgetoff=0x7f020008;
+        public static final int widgeton=0x7f020009;
     }
     public static final class id {
-        public static final int LinearLayout01=0x7f060001;
-        public static final int iv_button=0x7f060002;
-        public static final int tv_footer_1=0x7f060003;
-        public static final int tv_footer_2=0x7f060004;
-        public static final int tv_footer_3=0x7f060005;
-        public static final int tv_top_text=0x7f060000;
+        public static final int FrameLayout01=0x7f060000;
+        public static final int LinearLayout01=0x7f060003;
+        public static final int iv_button=0x7f060004;
+        public static final int tv_footer_1=0x7f060005;
+        public static final int tv_footer_2=0x7f060006;
+        public static final int tv_footer_3=0x7f060007;
+        public static final int tv_top_text=0x7f060002;
+        public static final int widgetButton=0x7f060001;
     }
     public static final class layout {
-        public static final int main=0x7f030000;
+        public static final int adb_appwidget=0x7f030000;
+        public static final int main=0x7f030001;
     }
     public static final class string {
         public static final int Turning_off=0x7f050016;
@@ -90,6 +96,7 @@ public final class R {
         public static final int wifi_on=0x7f050021;
     }
     public static final class xml {
-        public static final int preferences=0x7f040000;
+        public static final int adb_appwidget_info=0x7f040000;
+        public static final int preferences=0x7f040001;
     }
 }
