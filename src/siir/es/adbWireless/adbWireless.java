@@ -40,6 +40,7 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -76,8 +77,7 @@ public class adbWireless extends Activity {
 	ProgressDialog spinner;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState)
-	{
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.main);
@@ -262,7 +262,7 @@ public class adbWireless extends Activity {
 			AppWidgetManager.getInstance(context).updateAppWidget(cn, remoteViews);
 
 			if (prefsNoti(context)) {
-				showNotification(context, R.drawable.stat_sys_adb, context.getString(R.string.noti_text) + getWifiIp(context) + ":" + adbWireless.PORT);
+				showNotification(context, R.drawable.stat_sys_adb, context.getString(R.string.noti_text)+ " " + getWifiIp(context) + ":" + adbWireless.PORT);
 			}
 		} catch (Exception e) {return false;}
 		return true;
@@ -407,6 +407,7 @@ public class adbWireless extends Activity {
 
 	public static void showNotification(Context context, int icon, String text) {
 		final Notification notifyDetails = new Notification(icon, text, System.currentTimeMillis());
+		notifyDetails.flags = Notification.FLAG_ONGOING_EVENT;
 
 		if (prefsSound(context)) {
 			notifyDetails.defaults |= Notification.DEFAULT_SOUND;
@@ -419,7 +420,7 @@ public class adbWireless extends Activity {
 		Intent notifyIntent = new Intent(context, adbWireless.class);
 		notifyIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		PendingIntent intent = PendingIntent.getActivity(context, 0, notifyIntent, 0);
-		notifyDetails.setLatestEventInfo(context, context.getResources().getString(R.string.app_name), text, intent);
+		notifyDetails.setLatestEventInfo(context, context.getResources().getString(R.string.noti_title), text, intent);
 		mNotificationManager.notify(START_NOTIFICATION_ID, notifyDetails);
 	}
 
@@ -464,5 +465,14 @@ public class adbWireless extends Activity {
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 		return pref.getBoolean(context.getResources().getString(R.string.pref_wifi_off_key), true);
 
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	    if (keyCode == KeyEvent.KEYCODE_BACK) {
+	    	// Do nothing, force them to hit the home button so it does not close the application.
+	        return true;
+	    }
+	    return super.onKeyDown(keyCode, event);
 	}
 }

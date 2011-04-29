@@ -28,6 +28,7 @@
 	<string name="about">adbWireless enable ADB wireless connection to connect to the phone as if connected by USB.\n\nThanks to Skywriter to contribute.</string>
 
 	<string name="noti_text">Connect to </string>
+	<string name="noti_title">USB debugging connected</string>
 
 	<string name="settings_title">Preferences</string>
 
