@@ -49,8 +49,7 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class adbWireless extends Activity
-{
+public class adbWireless extends Activity {
 
 	public static final String MSG_TAG = "ADBWIRELESS";
 	public static final String PORT = "5555";
@@ -151,28 +150,23 @@ public class adbWireless extends Activity
 
 	}
 
-	public static void saveWiFiState(Context context, boolean wifiState)
-	{
+	public static void saveWiFiState(Context context, boolean wifiState) {
 		SharedPreferences settings = context.getSharedPreferences("wireless", 0);
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putBoolean("wifiState", wifiState);
 		editor.commit();
 	}
 
-	private void WiFidialog()
-	{
+	private void WiFidialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage(getString(R.string.no_wifi)).setCancelable(true).setPositiveButton(getString(R.string.button_exit), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id)
-			{
+			public void onClick(DialogInterface dialog, int id) {
 				adbWireless.this.finish();
 			}
 		}).setNegativeButton(R.string.button_activate_wifi, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id)
-			{
+			public void onClick(DialogInterface dialog, int id) {
 				enableWiFi(adbWireless.this, true);
 				dialog.cancel();
-
 			}
 		});
 		builder.setIcon(android.R.drawable.ic_dialog_alert);
@@ -182,8 +176,7 @@ public class adbWireless extends Activity
 	}
 
 	@Override
-	protected void onResume()
-	{
+	protected void onResume() {
 		SharedPreferences settings = getSharedPreferences("wireless", 0);
 		mState = settings.getBoolean("mState", false);
 		wifiState = settings.getBoolean("wifiState", false);
@@ -192,26 +185,21 @@ public class adbWireless extends Activity
 	}
 
 	@Override
-	protected void onDestroy()
-	{
+	protected void onDestroy() {
 		if (prefsWiFiOff(this) && !wifiState && checkWifiState(this)) {
 			enableWiFi(this, false);
 		}
 		try {
 			adbStop(this);
-
-		} catch (Exception e) {
-		}
+		} catch (Exception e) {}
 		try {
 			mNotificationManager.cancelAll();
-		} catch (Exception e) {
-		}
+		} catch (Exception e) {}
 		super.onDestroy();
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
+	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		menu.add(0, MENU_PREFERENCES, 0, R.string.menu_prefs).setIcon(android.R.drawable.ic_menu_preferences);
 		menu.add(0, MENU_ABOUT, 0, R.string.menu_about).setIcon(android.R.drawable.ic_menu_help);
@@ -220,8 +208,7 @@ public class adbWireless extends Activity
 	}
 
 	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item)
-	{
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		switch (item.getItemId()) {
 			case MENU_PREFERENCES:
 				Intent i = new Intent(this, ManagePreferences.class);
@@ -237,8 +224,7 @@ public class adbWireless extends Activity
 		return super.onMenuItemSelected(featureId, item);
 	}
 
-	private void updateState()
-	{
+	private void updateState() {
 		if (mState) {
 			tv_footer_1.setText(R.string.footer_text_1);
 			try {
@@ -256,11 +242,9 @@ public class adbWireless extends Activity
 			tv_footer_3.setVisibility(View.INVISIBLE);
 			iv_button.setImageResource(R.drawable.bt_on);
 		}
-
 	}
 
-	public static boolean adbStart(Context context)
-	{
+	public static boolean adbStart(Context context) {
 		try {
 			setProp("service.adb.tcp.port", PORT);
 			if (isProcessRunning("adbd")) {
@@ -277,18 +261,14 @@ public class adbWireless extends Activity
 			ComponentName cn = new ComponentName(context, adbWidgetProvider.class);
 			AppWidgetManager.getInstance(context).updateAppWidget(cn, remoteViews);
 
-			if (prefsNoti(context))
-				showNotification(context, R.drawable.mini_wireless, context.getString(R.string.noti_text) + getWifiIp(context) + ":" + adbWireless.PORT);
-
-		} catch (Exception e) {
-			return false;
-		}
-
+			if (prefsNoti(context)) {
+				showNotification(context, R.drawable.stat_sys_adb, context.getString(R.string.noti_text) + getWifiIp(context) + ":" + adbWireless.PORT);
+			}
+		} catch (Exception e) {return false;}
 		return true;
 	}
 
-	public static boolean adbStop(Context context) throws Exception
-	{
+	public static boolean adbStop(Context context) throws Exception {
 		try {
 			setProp("service.adb.tcp.port", "-1");
 			runRootCommand("stop adbd");
@@ -302,14 +282,11 @@ public class adbWireless extends Activity
 			ComponentName cn = new ComponentName(context, adbWidgetProvider.class);
 			AppWidgetManager.getInstance(context).updateAppWidget(cn, remoteViews);
 			mNotificationManager.cancelAll();
-		} catch (Exception e) {
-			return false;
-		}
+		} catch (Exception e) {return false;}
 		return true;
 	}
 
-	public static boolean isProcessRunning(String processName) throws Exception
-	{
+	public static boolean isProcessRunning(String processName) throws Exception {
 		boolean running = false;
 		Process process = null;
 		process = Runtime.getRuntime().exec("ps");
@@ -326,8 +303,7 @@ public class adbWireless extends Activity
 		return running;
 	}
 
-	public static boolean hasRootPermission()
-	{
+	public static boolean hasRootPermission() {
 		Process process = null;
 		DataOutputStream os = null;
 		boolean rooted = true;
@@ -348,16 +324,13 @@ public class adbWireless extends Activity
 				try {
 					os.close();
 					process.destroy();
-				} catch (Exception e) {
-					// nothing
-				}
+				} catch (Exception e) {}
 			}
 		}
 		return rooted;
 	}
 
-	public static boolean runRootCommand(String command)
-	{
+	public static boolean runRootCommand(String command) {
 		Process process = null;
 		DataOutputStream os = null;
 		try {
@@ -376,15 +349,12 @@ public class adbWireless extends Activity
 					os.close();
 				}
 				process.destroy();
-			} catch (Exception e) {
-				// nothing
-			}
+			} catch (Exception e) {}
 		}
 		return true;
 	}
 
-	public static boolean setProp(String property, String value)
-	{
+	public static boolean setProp(String property, String value) {
 		Process process = null;
 		DataOutputStream os = null;
 		try {
@@ -402,21 +372,18 @@ public class adbWireless extends Activity
 					os.close();
 				}
 				process.destroy();
-			} catch (Exception e) {
-			}
+			} catch (Exception e) {}
 		}
 		return true;
 	}
 
-	public static String getWifiIp(Context context)
-	{
+	public static String getWifiIp(Context context) {
 		WifiManager mWifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 		int ip = mWifiManager.getConnectionInfo().getIpAddress();
 		return (ip & 0xFF) + "." + ((ip >> 8) & 0xFF) + "." + ((ip >> 16) & 0xFF) + "." + ((ip >> 24) & 0xFF);
 	}
 
-	public static void enableWiFi(Context context, boolean enable)
-	{
+	public static void enableWiFi(Context context, boolean enable) {
 		if (enable) {
 			Toast.makeText(context, R.string.Turning_on_wifi, Toast.LENGTH_LONG).show();
 		} else {
@@ -426,8 +393,7 @@ public class adbWireless extends Activity
 		mWifiManager.setWifiEnabled(enable);
 	}
 
-	public static boolean checkWifiState(Context context)
-	{
+	public static boolean checkWifiState(Context context) {
 		try {
 			WifiManager mWifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 			WifiInfo wifiInfo = mWifiManager.getConnectionInfo();
@@ -436,30 +402,28 @@ public class adbWireless extends Activity
 			}
 
 			return true;
-		} catch (Exception e) {
-			return false;
-		}
+		} catch (Exception e) {return false;}
 	}
 
-	public static void showNotification(Context context, int icon, String text)
-	{
+	public static void showNotification(Context context, int icon, String text) {
 		final Notification notifyDetails = new Notification(icon, text, System.currentTimeMillis());
 
-		if (prefsSound(context))
+		if (prefsSound(context)) {
 			notifyDetails.defaults |= Notification.DEFAULT_SOUND;
-		if (prefsVibrate(context))
+		}
+		
+		if (prefsVibrate(context)) {
 			notifyDetails.defaults |= Notification.DEFAULT_VIBRATE;
+		}
 		
 		Intent notifyIntent = new Intent(context, adbWireless.class);
 		notifyIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		PendingIntent intent = PendingIntent.getActivity(context, 0, notifyIntent, 0);
 		notifyDetails.setLatestEventInfo(context, context.getResources().getString(R.string.app_name), text, intent);
 		mNotificationManager.notify(START_NOTIFICATION_ID, notifyDetails);
-
 	}
 
-	public void showHelpDialog()
-	{
+	public void showHelpDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage(getString(R.string.about)).setCancelable(true).setPositiveButton(getString(R.string.button_close), new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
@@ -471,41 +435,34 @@ public class adbWireless extends Activity
 		builder.show();
 	}
 
-	public static boolean prefsVibrate(Context context)
-	{
+	public static boolean prefsVibrate(Context context) {
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 		return pref.getBoolean(context.getResources().getString(R.string.pref_vibrate_key), true);
 	}
 
-	public static boolean prefsSound(Context context)
-	{
+	public static boolean prefsSound(Context context) {
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 		return pref.getBoolean(context.getResources().getString(R.string.pref_sound_key), true);
 	}
 
-	public static boolean prefsNoti(Context context)
-	{
+	public static boolean prefsNoti(Context context) {
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 		return pref.getBoolean(context.getResources().getString(R.string.pref_noti_key), true);
 	}
 
-	public static boolean prefsHaptic(Context context)
-	{
+	public static boolean prefsHaptic(Context context) {
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 		return pref.getBoolean(context.getResources().getString(R.string.pref_haptic_key), true);
 	}
 
-	public static boolean prefsWiFiOn(Context context)
-	{
+	public static boolean prefsWiFiOn(Context context) {
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 		return pref.getBoolean(context.getResources().getString(R.string.pref_wifi_on_key), false);
 	}
 
-	public static boolean prefsWiFiOff(Context context)
-	{
+	public static boolean prefsWiFiOff(Context context) {
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 		return pref.getBoolean(context.getResources().getString(R.string.pref_wifi_off_key), true);
 
 	}
-
 }

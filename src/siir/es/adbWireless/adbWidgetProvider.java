@@ -30,8 +30,7 @@ import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
-public class adbWidgetProvider extends AppWidgetProvider
-{
+public class adbWidgetProvider extends AppWidgetProvider {
 	private static String ACTION_CLICK = "siir.es.adbwireless.widget_update";
 	private RemoteViews views = new RemoteViews("siir.es.adbWireless",  R.layout.adb_appwidget);  
 	
@@ -57,15 +56,12 @@ public class adbWidgetProvider extends AppWidgetProvider
 			}
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
-		
-		
     }
 	
 	@Override
-	public void onReceive(Context context, Intent intent)
-	{
+	public void onReceive(Context context, Intent intent) {
 	    super.onReceive(context, intent);
-	    if(intent.getAction().equals(ACTION_CLICK)) {
+	    if (intent.getAction().equals(ACTION_CLICK)) {
 	    	
 	    	if(!adbWireless.hasRootPermission()) {
 	    		Toast.makeText(context, R.string.no_root, Toast.LENGTH_LONG).show();
@@ -82,7 +78,7 @@ public class adbWidgetProvider extends AppWidgetProvider
 					Toast.makeText(context, R.string.no_wifi, Toast.LENGTH_LONG).show();
 					return;
 				}
-			}else {
+			} else {
 				adbWireless.wifiState = true;
 				adbWireless.saveWiFiState(context, adbWireless.wifiState);
 			}
@@ -113,10 +109,6 @@ public class adbWidgetProvider extends AppWidgetProvider
 			} catch (Exception e) {
 				Log.e(adbWireless.MSG_TAG, "onReceive error:", e);
 			}
-			
 	    }
 	}
-
 }
-
-
